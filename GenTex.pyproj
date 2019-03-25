@@ -22,6 +22,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="GenTex.py" />
+    <Compile Include="Helper\HMMParam.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helper\ViterbiHelper.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helper\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Sample.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Word.py">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helper\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

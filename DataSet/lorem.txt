@@ -1,7 +1,25 @@
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at mi imperdiet, congue nibh in, malesuada neque. Phasellus cursus aliquam euismod. Praesent iaculis commodo tincidunt. Suspendisse scelerisque turpis et condimentum laoreet. Nam facilisis vitae erat in blandit. Curabitur ornare fermentum convallis. Suspendisse nisi elit, bibendum pharetra sapien sed, convallis iaculis mauris. Nunc ac mollis diam. Suspendisse sit amet enim gravida, consectetur ex sit amet, dapibus erat. Quisque et tristique enim. Proin vel aliquam lectus. Maecenas convallis, urna finibus sagittis sagittis, elit tortor sollicitudin leo, at lobortis augue est sit amet eros.
-
-Sed sit amet ullamcorper velit, at egestas mauris. Aliquam erat volutpat. Maecenas at orci tellus. Nullam mattis malesuada purus at imperdiet. In a hendrerit orci. Pellentesque vehicula blandit vestibulum. Nulla facilisi. Cras molestie sed est id consequat. Aliquam erat volutpat.
-
-Curabitur tristique mauris ac enim hendrerit, nec semper est sagittis. Morbi dignissim lacus sit amet massa luctus tincidunt. Pellentesque molestie mi ac orci eleifend, sed venenatis augue tempus. Nam volutpat bibendum nibh ornare ullamcorper. Suspendisse aliquet, nibh at efficitur facilisis, orci quam imperdiet sapien, ac malesuada lacus felis non elit. Fusce a convallis eros. Pellentesque euismod cursus sapien. Donec ut faucibus augue, nec sodales nulla. Donec in vestibulum lectus. Phasellus interdum tellus commodo, tristique eros sed, egestas felis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent porttitor augue vitae magna congue finibus. Pellentesque consectetur varius justo, in vestibulum odio sodales quis. Etiam vel quam sit amet est congue euismod.
-
-Donec congue porta vulputate. Phasellus sit amet tellus sem. Vivamus sagittis gravida est, ac varius odio. Etiam et fringilla ipsum, ac blandit purus. Pellentesque luctus in ex ut volutpat. Mauris pharetra enim ut arcu faucibus imperdiet. Nunc quis dapibus elit. Curabitur eu risus vehicula, fermentum ante sed, convallis mi. Sed finibus, diam vel ullamcorper.
+"ACT I"
+"SCENE I. London. The palace."
+"Enter KING HENRY, LORD JOHN OF LANCASTER, the EARL of WESTMORELAND, SIR WALTER BLUNT, and others"
+"So shaken as we are, so wan with care,"
+"Find we a time for frighted peace to pant,"
+"And breathe short-winded accents of new broils"
+"To be commenced in strands afar remote."
+"No more the thirsty entrance of this soil"
+"Shall daub her lips with her own children's blood,"
+"Nor more shall trenching war channel her fields,"
+"Nor bruise her flowerets with the armed hoofs"
+"Of hostile paces: those opposed eyes,"
+"Which, like the meteors of a troubled heaven,"
+"All of one nature, of one substance bred,"
+"Did lately meet in the intestine shock"
+"And furious close of civil butchery"
+"Shall now, in mutual well-beseeming ranks,"
+"March all one way and be no more opposed"
+"Against acquaintance, kindred and allies:"
+"The edge of war, like an ill-sheathed knife,"
+"No more shall cut his master. Therefore, friends,"
+"As far as to the sepulchre of Christ,"
+"Whose soldier now, under whose blessed cross"
+"We are impressed and engaged to fight,"
+"Forthwith a power of English shall we levy,"
