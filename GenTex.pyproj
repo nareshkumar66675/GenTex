@@ -37,9 +37,6 @@
     <Compile Include="Sample.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Word.py">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helper\" />

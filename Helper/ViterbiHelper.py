@@ -42,44 +42,44 @@ def ConvertMatToJFormat(matrix):
     return JMatrix
 
 def viterbi(HMMParam):
-    V = [{}]
+    vTable = [{}]
     for st in HMMParam.States:
-        V[0][st] = {"prob": HMMParam.InitialProb[st] * HMMParam.EmissionProb[st][HMMParam.Observations[0]], "prev": None}
+        vTable[0][st] = {"0": HMMParam.InitialProb[st] * HMMParam.EmissionProb[st][HMMParam.Observations[0]], "1": None}
     # Run Viterbi when t > 0
     for t in range(1, len(HMMParam.Observations)):
-        V.append({})
+        vTable.append({})
         for st in HMMParam.States:
-            max_tr_prob = V[t-1][HMMParam.States[0]]["prob"]*HMMParam.TransProb[HMMParam.States[0]][st]
+            max_tr_prob = vTable[t-1][HMMParam.States[0]]["0"]*HMMParam.TransProb[HMMParam.States[0]][st]
             prev_st_selected = HMMParam.States[0]
             for prev_st in HMMParam.States[1:]:
-                tr_prob = V[t-1][prev_st]["prob"]*HMMParam.TransProb[prev_st][st]
+                tr_prob = vTable[t-1][prev_st]["0"]*HMMParam.TransProb[prev_st][st]
                 if tr_prob > max_tr_prob:
                     max_tr_prob = tr_prob
                     prev_st_selected = prev_st
                     
             max_prob = max_tr_prob * HMMParam.EmissionProb[st][HMMParam.Observations[t]]
-            V[t][st] = {"prob": max_prob, "prev": prev_st_selected}
-                    
-    #for line in dptable(V):
-    #    print(line)
-    opt = []
+            vTable[t][st] = {"0": max_prob, "1": prev_st_selected}
+
+    return vTable
+
+def GetSequence(vTable):
+
+    seq = []
     # The highest probability
-    max_prob = max(value["prob"] for value in V[-1].values())
+    max_prob = max(value["0"] for value in vTable[-1].values())
     previous = None
     # Get most probable state and its backtrack
-    for st, data in V[-1].items():
-        if data["prob"] == max_prob:
-            opt.append(st)
+    for st, data in vTable[-1].items():
+        if data["0"] == max_prob:
+            seq.append(st)
             previous = st
             break
     # Follow the backtrack till the first observation
-    for t in range(len(V) - 2, -1, -1):
-        opt.insert(0, V[t + 1][previous]["prev"])
-        previous = V[t + 1][previous]["prev"]
+    for t in range(len(vTable) - 2, -1, -1):
+        seq.insert(0, vTable[t + 1][previous]["1"])
+        previous = vTable[t + 1][previous]["1"]
 
-    #print('The steps of states are ' + ' '.join(opt) + ' with highest probability of %s' % max_prob)
-
-    return opt,max_prob
+    return seq,max_prob
 
 def ConvertArrToJFormat(array):
     JArray = {}

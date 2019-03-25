@@ -19,3 +19,6 @@ class TextHelper(object):
         textListNoDup = list(dict.fromkeys(self.TextList))
         self.TextLabels = self.Encoder.fit(textListNoDup)
         self.EncodedTextList = self.Encoder.transform(self.TextList)
+
+
+    
