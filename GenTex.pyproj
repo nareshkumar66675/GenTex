@@ -25,6 +25,9 @@
     <Compile Include="Helper\HMMParam.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helper\TextHelper.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Helper\ViterbiHelper.py">
       <SubType>Code</SubType>
     </Compile>
