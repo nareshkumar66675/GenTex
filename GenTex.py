@@ -11,18 +11,26 @@ import os.path
 import pickle
 from multiprocessing import Process
 
-
+'''
+Reads Model Data From Pickle File
+'''
 def ReadModelData():
     with open(dataSetFolder+ os.path.join('\Models\ModelData.pkl'),'rb') as f:
         modelData = pickle.load(f)
 
     return modelData
 
+'''
+Formats the output for user
+'''
 def FormatOutput(words):
     words = [',' if x=='COMMA' else x for x in words]
     words = ['.' if x=='PERIOD' else x for x in words]
     return words
 
+'''
+Generates text based on cereated model
+'''
 def GenerateText():
 
     modelData = ReadModelData()
@@ -47,6 +55,9 @@ def GenerateText():
     print("\n\n**************\n\n")
 
 
+'''
+Predicts Text based on the entered sequence and model
+'''
 def PredictText():
     print("Text Prediction")
     modelData = ReadModelData()
@@ -68,36 +79,28 @@ def PredictText():
 
     path,prob = ViterbiAlgo(modelData.HMM.TransMat,modelData.HMM.TransMat.transpose(1,0),observations)
 
-    #vTable = viterbi(modelData.HMM,[count+1,count+2,count+3])
     WordList = modelData.TextHelper.Encoder.inverse_transform(path.astype(int))
     WordList = FormatOutput(WordList)
     print("The best prediction is '{0}'".format(' '.join(WordList)))
 
     print("\n")
 
-
+'''
+Retrain the Model - From Dataset
+'''
 def ReTrain():
     print("Retraining Model")
     textPath = dataSetFolder+ os.path.join('\Dataset\lorem.txt')
     with open(textPath, 'r') as textFile:
         textData=textFile.read().replace('\n', ' ')
 
-
-
     textHelper = TextHelper.TextHelper()
-
     textHelper.PreProcessText(textData)
   
-
     HMMValues = HMMParam.HMM()
-
     HMMValues.SetParams(textHelper.EncodedTextList)
 
     #path = GenerateTextPath(HMMValues.TransMat.copy())
-
-
-    #HMMValues.States = textHelper.Encoder.transform("prologue to an egg and butter".split());
-
     #vTable = viterbi(HMMValues)
 
     probValues = ProbValues()
@@ -106,21 +109,16 @@ def ReTrain():
 
     probValues.BackwardValues = BackwardAlgo(HMMValues,textHelper.Encoder.transform(['PERIOD'])[0])
 
-    
     pklModel = Model.Model(HMMValues,textHelper,probValues) 
 
     with open(dataSetFolder+ os.path.join('\Models\ModelData.pkl'),'wb+') as f:
         pickle.dump(pklModel, f)
-
 
     print("Model Retraining Completed")
 
 
 
 print("Text Generation/Prediction using HMM")
-
-
-#ComputeTranMatrixCharacter([])
 
 dataSetFolder = os.path.dirname(os.path.realpath(__file__))
 
@@ -144,8 +142,6 @@ while True:
             break
         else:
             continue
-
-
 
 print('End')
 
