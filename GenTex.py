@@ -18,6 +18,11 @@ def ReadModelData():
 
     return modelData
 
+def FormatOutput(words):
+    words = [',' if x=='COMMA' else x for x in words]
+    words = ['.' if x=='PERIOD' else x for x in words]
+    return words
+
 def GenerateText():
 
     modelData = ReadModelData()
@@ -31,8 +36,8 @@ def GenerateText():
 
 
     WordList = modelData.TextHelper.Encoder.inverse_transform(wordPath)
-    WordList = [',' if x=='COMMA' else x for x in WordList]
-    WordList = ['.' if x=='PERIOD' else x for x in WordList]
+    WordList = FormatOutput(WordList)
+
     print("\n")
 
     print("Generated Text from Text Corpus")
@@ -45,18 +50,44 @@ def GenerateText():
 def PredictText():
     print("Text Prediction")
     modelData = ReadModelData()
-    while True:
-        word = input('Enter word sequence from text corpus (E to Exit): ')
 
-        if str.lower(word) == "e":
-            break
-        else:
-            try:
-                wIndx = np.where(pLabels==word)[0]
-                if(wIndx[0] < len(pLabels)-1):
-                    print(pLabels[wIndx[0]+1])
-            except IndexError:
-                print("Word not Found")
+    count = len(modelData.TextHelper.Encoder.classes_)
+
+    sequence = input('Enter a sequence of words: ')
+
+    sequence = modelData.TextHelper.TextProcess(sequence)
+    observations =[]
+    i = 1
+    for word in sequence.split():
+        try:
+            en = modelData.TextHelper.Encoder.transform([word])[0];
+            observations.append(en)
+        except ValueError:
+            observations.append(len(modelData.TextHelper.Encoder.classes_)+i)
+            i = i+1
+
+    path,prob = viterbi_alg(modelData.HMM.TransMat,modelData.HMM.TransMat.transpose(1,0),observations)
+
+    #vTable = viterbi(modelData.HMM,[count+1,count+2,count+3])
+    WordList = modelData.TextHelper.Encoder.inverse_transform(path.astype(int))
+    WordList = FormatOutput(WordList)
+    print("The best prediction is '{0}'".format(' '.join(WordList)))
+
+    print("\n")
+    #while True:
+    #    word = input('Enter word sequence from text corpus (E to Exit): ')
+
+
+
+    #    if str.lower(word) == "e":
+    #        break
+    #    else:
+    #        try:
+    #            wIndx = np.where(pLabels==word)[0]
+    #            if(wIndx[0] < len(pLabels)-1):
+    #                print(pLabels[wIndx[0]+1])
+    #        except IndexError:
+    #            print("Word not Found")
 
 def ReTrain():
     print("Retraining Model")

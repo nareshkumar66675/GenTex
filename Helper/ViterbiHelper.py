@@ -70,6 +70,38 @@ def viterbi(HMMParam,observations):
 
     return vTable
 
+def viterbi_alg(A_mat, O_mat, observations):
+    # get number of states
+    num_obs = len(observations)
+    num_states = A_mat.shape[0]
+    # initialize path costs going into each state, start with 0
+    log_probs = np.zeros(num_states)
+    # initialize arrays to store best paths, 1 row for each ending state
+    paths = np.zeros( (num_states, num_obs+1 ))
+    paths[:, 0] = np.arange(num_states)
+    # start looping
+    for obs_ind, obs_val in enumerate(observations):
+        # for each obs, need to check for best path into each state
+        for state_ind in range(num_states):
+            # given observation, check prob of each path
+            val = 0
+            if obs_val< np.size(O_mat,1):
+                val = np.log(O_mat[state_ind, obs_val])
+            temp_probs = log_probs + \
+                          val + \
+                         np.log(A_mat[:, state_ind])
+            # check for largest score
+            best_temp_ind = np.argmax(temp_probs)
+            # save the path with a higher prob and score
+            paths[state_ind,:] = paths[best_temp_ind,:]
+            paths[state_ind,(obs_ind+1)] = state_ind
+            log_probs[state_ind] = temp_probs[best_temp_ind]
+    # we now have a best stuff going into each path, find the best score
+    best_path_ind = np.argmax(log_probs)
+    # done, get out.
+    
+    return (paths[best_path_ind], log_probs[best_path_ind])
+
 def GetSequence(vTable):
 
     seq = []

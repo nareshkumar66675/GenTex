@@ -12,11 +12,7 @@ class TextHelper(object):
         self.EncodedTextList=[]
 
     def PreProcessText(self,text):
-        remPunct = str.maketrans('', '', string.punctuation)
-        text = text.lower()
-        text = text.replace(',',' COMMA')
-        text = text.replace('.',' PERIOD')
-        text = text.translate(remPunct)
+        text = self.TextProcess(text)
         self.TextList = list(filter(None,text.split()))
         #self.TextList = list(map(lambda x:x.lower(),self.TextList))
         textListNoDup = list(dict.fromkeys(self.TextList))
@@ -24,4 +20,10 @@ class TextHelper(object):
         self.EncodedTextList = self.Encoder.transform(self.TextList)
 
 
-    
+    def TextProcess(self,text):
+        remPunct = str.maketrans('', '', string.punctuation)
+        text = text.lower()
+        text = text.replace(',',' COMMA')
+        text = text.replace('.',' PERIOD')
+        text = text.translate(remPunct)
+        return text
