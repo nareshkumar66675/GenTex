@@ -1,4 +1,7 @@
 import pandas as pd
+from Helper import Model
+import operator
+from Helper.ViterbiTest import ComputeTranMatrixCharacter
 from Helper import TextHelper
 from Helper import HMMParam
 from Helper.ViterbiHelper import *
@@ -6,32 +9,44 @@ import numpy as np
 import sys
 import os.path
 import pickle
+from multiprocessing import Process
 
 
-def GetSeqAndLabels():
-    with open(dataSetFolder+ os.path.join('\GenTex\Models\Table.pkl'),'rb') as f:
-        vTable = pickle.load(f)
+def ReadModelData():
+    with open(dataSetFolder+ os.path.join('\GenTex\Models\ModelData.pkl'),'rb') as f:
+        modelData = pickle.load(f)
 
-    with open(dataSetFolder+ os.path.join('\GenTex\Models\Text.pkl'),'rb') as f:
-        textHelper = pickle.load(f)
-
-    seq,prob = GetSequence(vTable)
-    pLabels = textHelper.Encoder.inverse_transform(seq)
-
-    return pLabels,seq
+    return modelData
 
 def GenerateText():
 
-    pLabels,seq = GetSeqAndLabels()
+    modelData = ReadModelData()
+
+    postValues = posterior(modelData.HMM,modelData.ProbValues)
+
+    wordPath = []
+    for item in postValues:
+        hiValue = max(item.items(), key=operator.itemgetter(1))[0]
+        wordPath.append(hiValue)
+
+
+    WordList = modelData.TextHelper.Encoder.inverse_transform(wordPath)
+    WordList = [',' if x=='COMMA' else x for x in WordList]
+    WordList = ['.' if x=='PERIOD' else x for x in WordList]
+    print("\n")
+
     print("Generated Text from Text Corpus")
-    print("")
-    print(' '.join(pLabels[:100]))
+    print("\n**************\n")
+    print(' '.join(WordList))
+
+    print("\n\n**************\n\n")
+
 
 def PredictText():
     print("Text Prediction")
-    pLabels,seq = GetSeqAndLabels()
+    modelData = ReadModelData()
     while True:
-        word = input('Enter a word from text corpus (E to Exit): ')
+        word = input('Enter word sequence from text corpus (E to Exit): ')
 
         if str.lower(word) == "e":
             break
@@ -49,26 +64,45 @@ def ReTrain():
     with open(textPath, 'r') as textFile:
         textData=textFile.read().replace('\n', ' ')
 
+
+
     textHelper = TextHelper.TextHelper()
 
     textHelper.PreProcessText(textData)
+  
 
     HMMValues = HMMParam.HMM()
 
     HMMValues.SetParams(textHelper.EncodedTextList)
 
-    vTable = viterbi(HMMValues)
+    #path = GenerateTextPath(HMMValues.TransMat.copy())
 
-    with open(dataSetFolder+ os.path.join('\GenTex\Models\Table.pkl'),'wb+') as f:
-        pickle.dump(vTable, f)
 
-    with open(dataSetFolder+ os.path.join('\GenTex\Models\Text.pkl'),'wb+') as f:
-        pickle.dump(textHelper, f)
+    #HMMValues.States = textHelper.Encoder.transform("prologue to an egg and butter".split());
+
+    #vTable = viterbi(HMMValues)
+
+    probValues = ProbValues()
+
+    probValues.ForwardValues,probValues.ProbForward = ForwardAlgo(HMMValues,textHelper.Encoder.transform(['PERIOD'])[0])
+
+    probValues.BackwardValues = BackwardAlgo(HMMValues,textHelper.Encoder.transform(['PERIOD'])[0])
+
+    
+    pklModel = Model.Model(HMMValues,textHelper,probValues) 
+
+    with open(dataSetFolder+ os.path.join('\GenTex\Models\ModelData.pkl'),'wb+') as f:
+        pickle.dump(pklModel, f)
+
 
     print("Model Retraining Completed")
 
+
+
 print("Text Generation/Prediction using HMM")
 
+
+ComputeTranMatrixCharacter([])
 
 dataSetFolder = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 
@@ -88,10 +122,9 @@ while True:
     else:
         choice = input('Enter Valid Option. Press Y to Restart and N to Exit: ')
         if str.lower(choice) == 'n':
-            sys.exit("User Exited")
+            break
         else:
             continue
-
 
 
 

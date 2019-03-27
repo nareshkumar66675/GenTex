@@ -1,6 +1,14 @@
 import numpy as np
+import random
 from Helper import HMMParam
 
+class ProbValues(object):
+    
+    def __init__(self):
+        self.ForwardValues =[]
+        self.BackwardValues = []
+        self.ProbForward = []
+        self.PosteriorValues =[]
 
 def FindListProb(encodedTextList):
     #transitions = np.array([1,3,4,5,1,3,5,3,0,1,2])
@@ -41,12 +49,12 @@ def ConvertMatToJFormat(matrix):
         JMatrix[i]=temp
     return JMatrix
 
-def viterbi(HMMParam):
+def viterbi(HMMParam,observations):
     vTable = [{}]
     for st in HMMParam.States:
-        vTable[0][st] = {"0": HMMParam.InitialProb[st] * HMMParam.EmissionProb[st][HMMParam.Observations[0]], "1": None}
+        vTable[0][st] = {"0": HMMParam.InitialProb[st] * HMMParam.EmissionProb[st][observations[0]], "1": None}
     # Run Viterbi when t > 0
-    for t in range(1, len(HMMParam.Observations)):
+    for t in range(1, len(observations)):
         vTable.append({})
         for st in HMMParam.States:
             max_tr_prob = vTable[t-1][HMMParam.States[0]]["0"]*HMMParam.TransProb[HMMParam.States[0]][st]
@@ -57,7 +65,7 @@ def viterbi(HMMParam):
                     max_tr_prob = tr_prob
                     prev_st_selected = prev_st
                     
-            max_prob = max_tr_prob * HMMParam.EmissionProb[st][HMMParam.Observations[t]]
+            max_prob = max_tr_prob * HMMParam.EmissionProb[st][observations[t]]
             vTable[t][st] = {"0": max_prob, "1": prev_st_selected}
 
     return vTable
@@ -87,8 +95,82 @@ def ConvertArrToJFormat(array):
         JArray[i]=prob
     return JArray
 
-def dptable(V):
-    # Print a table of steps from dictionary
-    yield " ".join(("%12d" % i) for i in range(len(V)))
-    for state in V[0]:
-        yield "%.7s: " % state + " ".join("%.7s" % ("%f" % v[state]["prob"]) for v in V)
+
+def posterior(HMM,ProbValues):
+    # merging the two parts
+    posterior = []
+    for i in range(len(HMM.Observations)):
+        posterior.append({st: ProbValues.ForwardValues[i][st] * ProbValues.BackwardValues[i][st] / ProbValues.ProbForward for st in HMM.States})
+
+    return posterior
+
+def ForwardAlgo(HMM, EndState):
+    # forward part of the algorithm
+    fwd = []
+    f_prev = {}
+    for i, observation_i in enumerate(HMM.Observations):
+        f_curr = {}
+        for st in HMM.States:
+            if i == 0:
+                # base case for the forward part
+                prev_f_sum = HMM.InitialProb[st]
+            else:
+                prev_f_sum = sum(f_prev[k]*HMM.TransProb[k][st] for k in HMM.States)
+
+            f_curr[st] = HMM.EmissionProb[st][observation_i] * prev_f_sum
+
+        fwd.append(f_curr)
+        f_prev = f_curr
+
+    p_fwd = sum(f_curr[k] * HMM.TransProb[k][EndState] for k in HMM.States)
+
+
+    return fwd,p_fwd
+
+def BackwardAlgo(HMM, EndState = 'PERIOD'):
+    bkw = []
+    b_prev = {}
+    for i, observation_i_plus in enumerate(reversed(HMM.Observations[1:]+[None,])):
+        b_curr = {}
+        for st in HMM.States:
+            if i == 0:
+                # base case for backward part
+                b_curr[st] = HMM.TransProb[st][EndState]
+            else:
+                b_curr[st] = sum(HMM.TransProb[st][l] * HMM.EmissionProb[l][observation_i_plus] * b_prev[l] for l in HMM.States)
+
+        bkw.insert(0,b_curr)
+        b_prev = b_curr
+
+    p_bkw = sum(HMM.InitialProb[l] * HMM.EmissionProb[l][HMM.Observations[0]] * b_curr[l] for l in HMM.States)
+
+    return bkw
+
+def FindLargest(listObj):
+    largest = 0
+    largest2 = 0
+    for i in range(len(listObj)):      
+        if listObj[i] > largest:  
+            largest2 = largest 
+            largest = listObj[i]
+            LargestIndex = i
+        elif largest2 == None or largest2 <= listObj[i]:  
+            Largest2Index = i 
+            largest2 = listObj[i]
+    return LargestIndex,Largest2Index
+
+def GenerateTextPath(transMat , maxCount = 100):
+    #transMat = np.zeros(shape=(100,100))
+    wordIndex = random.randint(0,np.size(transMat,0))
+
+    path = []
+    for i in range(maxCount):
+        path.append(wordIndex)
+        row = transMat[wordIndex]
+        LargestIndex,Largest2Index = FindLargest(row)
+        val = (transMat[wordIndex,LargestIndex]*30)/100
+        transMat[wordIndex,LargestIndex] = transMat[wordIndex,LargestIndex] - val
+        transMat[wordIndex,Largest2Index] = transMat[wordIndex,Largest2Index] + val
+        wordIndex = LargestIndex
+    
+    return path
