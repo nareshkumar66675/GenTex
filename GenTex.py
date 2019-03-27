@@ -74,20 +74,7 @@ def PredictText():
     print("The best prediction is '{0}'".format(' '.join(WordList)))
 
     print("\n")
-    #while True:
-    #    word = input('Enter word sequence from text corpus (E to Exit): ')
 
-
-
-    #    if str.lower(word) == "e":
-    #        break
-    #    else:
-    #        try:
-    #            wIndx = np.where(pLabels==word)[0]
-    #            if(wIndx[0] < len(pLabels)-1):
-    #                print(pLabels[wIndx[0]+1])
-    #        except IndexError:
-    #            print("Word not Found")
 
 def ReTrain():
     print("Retraining Model")
@@ -141,6 +128,7 @@ while True:
     print("1. Generate Text Sequence")
     print("2. Predict Text")
     print("3. Re-Train Model")
+    print("Any other key to exit")
 
     userChoice = (input('Select one option from above : '))
 
@@ -151,7 +139,7 @@ while True:
     elif userChoice == "3":
         ReTrain()
     else:
-        choice = input('Enter Valid Option. Press Y to Restart and N to Exit: ')
+        choice = input('Please Confirm. Press Y to Restart and N to Exit: ')
         if str.lower(choice) == 'n':
             break
         else:
