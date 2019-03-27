@@ -13,7 +13,7 @@ from multiprocessing import Process
 
 
 def ReadModelData():
-    with open(dataSetFolder+ os.path.join('\GenTex\Models\ModelData.pkl'),'rb') as f:
+    with open(dataSetFolder+ os.path.join('\Models\ModelData.pkl'),'rb') as f:
         modelData = pickle.load(f)
 
     return modelData
@@ -66,7 +66,7 @@ def PredictText():
             observations.append(len(modelData.TextHelper.Encoder.classes_)+i)
             i = i+1
 
-    path,prob = viterbi_alg(modelData.HMM.TransMat,modelData.HMM.TransMat.transpose(1,0),observations)
+    path,prob = ViterbiAlgo(modelData.HMM.TransMat,modelData.HMM.TransMat.transpose(1,0),observations)
 
     #vTable = viterbi(modelData.HMM,[count+1,count+2,count+3])
     WordList = modelData.TextHelper.Encoder.inverse_transform(path.astype(int))
@@ -78,7 +78,7 @@ def PredictText():
 
 def ReTrain():
     print("Retraining Model")
-    textPath = dataSetFolder+ os.path.join('\GenTex\Dataset\lorem.txt')
+    textPath = dataSetFolder+ os.path.join('\Dataset\lorem.txt')
     with open(textPath, 'r') as textFile:
         textData=textFile.read().replace('\n', ' ')
 
@@ -109,7 +109,7 @@ def ReTrain():
     
     pklModel = Model.Model(HMMValues,textHelper,probValues) 
 
-    with open(dataSetFolder+ os.path.join('\GenTex\Models\ModelData.pkl'),'wb+') as f:
+    with open(dataSetFolder+ os.path.join('\Models\ModelData.pkl'),'wb+') as f:
         pickle.dump(pklModel, f)
 
 
@@ -120,9 +120,9 @@ def ReTrain():
 print("Text Generation/Prediction using HMM")
 
 
-ComputeTranMatrixCharacter([])
+#ComputeTranMatrixCharacter([])
 
-dataSetFolder = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+dataSetFolder = os.path.dirname(os.path.realpath(__file__))
 
 while True:
     print("1. Generate Text Sequence")

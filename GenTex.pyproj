@@ -40,9 +40,6 @@
     <Compile Include="Helper\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Sample.py">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helper\" />

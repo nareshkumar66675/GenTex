@@ -13,6 +13,8 @@ class HMM(object):
         self.TransMat = TransMat
 
 
+    ''' Set Parameter Values
+    '''
     def SetParams(self,encodedTextList):
         self.States = (list(range(max(encodedTextList))))
         self.Observations = (list(range(max(encodedTextList))))

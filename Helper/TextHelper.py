@@ -2,7 +2,7 @@ from sklearn import preprocessing
 import string
 
 class TextHelper(object):
-    """description of class"""
+    """Text helper Class - holds data related to text"""
 
 
     def __init__(self, Encoder = None):
