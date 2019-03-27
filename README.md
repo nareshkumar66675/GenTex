@@ -36,18 +36,18 @@ It is an ML Project using **Hidden Markov Model**.
 ##### Laplace Smoothing 
 - Since not every word has a state transition there will be a lot of 0 values.
 - To account for that, Lapalace Smoothing is used with Lamba = 1.
-##### Text Generation 
+#### Text Generation 
 - Based on the HMM Parameters, text is generated.
 - Forward and Backward Algorithm is used to find the probabilities of each states.
 - Based on these probabilities, we select the word based on maximum probability. 
 - These words are then used to form the Text.
 
-##### Text Prediction
+#### Text Prediction
 - Based on the HMM Parameters, text is predicted.
 - Viterbi alogorithm is feeded with the HMM Parameters and the new observations enetered by user.
 - Best sequence of words is returned by the algorithm.
 
-#### Approach 2
+### Approach 2
 - This is a test approach which is similar to the Approach 1.
 - Here the hidden states are characters **a-z**.
 - We categorize each word in the text corpus to any one of the alphabets based on the starting letter of the word.
@@ -65,7 +65,7 @@ Note:
 # Installation
 ```
 1. Clone the Repository or Download the Project
-2. Navigate to the rool folder
+2. Navigate to the root folder
 3. Execute 'python GenTex.py'
 ```
 
@@ -136,8 +136,8 @@ Model Retraining Completed
 - **ModelData** - Simple Model Data File
 - **ModelData1** - Large Model Data File. Dont use unless its very necessary.
 ##### DataSet
--- alllines.txt
--- lorem.txt - Cut down version of alllines.txt
+- alllines.txt
+- lorem.txt - Cut down version of alllines.txt
 
 
 
