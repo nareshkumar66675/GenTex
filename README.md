@@ -141,4 +141,6 @@ Model Retraining Completed
 
 
 
-  
+ # References
+- Forward Backward Algorithm [https://en.wikipedia.org/wiki/Forward%E2%80%93backward_algorithm]
+- Viterbi Algorithm [https://en.wikipedia.org/wiki/Viterbi_algorithm]
