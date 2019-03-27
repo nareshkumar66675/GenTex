@@ -73,80 +73,72 @@ Note:
 
 # Sample Execution
 
-#### 1. Select DataSet
+#### 1. Generate Text
 ```
-Expectation Maximization using Gaussian Mixture Model
-1.Liver
-2.Wine
-3.Custom(File Path Needed)
-Select one Dataset from above : 1
+Text Generation/Prediction using HMM
+1. Generate Text Sequence
+2. Predict Text
+3. Re-Train Model
+Any other key to exit
+Select one option from above : 1
 ```
-#### 2. Select Column
+#### 2. Generate Text Output
 ```
-Available Columns
-0  Age
-1  Total_Bilirubin
-2  Direct_Bilirubin
-3  Alkaline_Phosphotase
-4  Alamine_Aminotransferase
-5  Aspartate_Aminotransferase
-6  Total_Protiens
-7  Albumin
-8  Albumin_and_Globulin_Ratio
-9  Dataset
-Select one Column(Enter number): 7
-```
-#### 3. Show Histogram and Find Optimal Cluster
-```
-Close the Graph to continue.
-Checking feasibility of Cluster:2
-Checking feasibility of Cluster:3
-Optimal Cluster is 3
-```
-![AlbuminHistogram](https://raw.githubusercontent.com/nareshkumar66675/ExpMaxML/master/Others/AlbuminHist.png "AlbuminHistogram") 
+Generated Text from Text Corpus
 
-#### 4. EM Iteration using GMM
+**************
+
+like the power of , walkd i on remote acquaintance were of the illsheathed knife , hoofs were to no cross feet , , friends , to her shall , her these blood , butchery of in . his her lately of of english shall king henry , as which , , we with our a hundred , peace close , , his master fields of paces those . knife and the shock of and henry , , meet , the palace . john all . in of shall womb in wellbeseeming ranks , no more fight , like the nature against so advantage whose childrens those in . , to of , . i of as we and accents walter english shall now afar bred , mothers , pagans entrance soil blessed for the war heaven whose those blunt with , and are ranks moulded , , like the palace
+
+
+**************
 ```
-*******  Iteration 0   *********
-Printing Mean
-2.355348573822168, 3.1193685474989397, 3.9317409062682755
-Log Likelyhood :-151537.16537436945
-*******  Iteration 1   *********
-Printing Mean
-2.356583558295428, 3.117896594822594, 3.928358017839534
-Log Likelyhood :-151426.94519112387
-0.0
-*******  Iteration 2   *********
-Printing Mean
-2.356504406993411, 3.117180941618275, 3.9271702188672144
-Log Likelyhood :-151399.42224758756
-0.7502912558674304
-..
-...
-.....
+#### 3. Text Prediction
+```
+1. Generate Text Sequence
+2. Predict Text
+3. Re-Train Model
+Any other key to exit
+Select one option from above : 2
 ```
 
-#### 5. Final Result and Likelihood Graph
+
+#### 4. Text Prediction Output
 ```
-Final Mean Values for each cluster:
-Cluster 0  : 2.356364851826904
-Cluster 1  : 3.116288502073406
-Cluster 2  : 3.925730588575203
+Text Prediction
+Enter a sequence of words: Those Shock
+
+The best prediction is 'those blessed and'
 ```
-![Likelihood](https://raw.githubusercontent.com/nareshkumar66675/ExpMaxML/master/Others/Convergence.png "Likelihood") 
+
+#### 5. Model Retrain
+```
+1. Generate Text Sequence
+2. Predict Text
+3. Re-Train Model
+Any other key to exit
+Select one option from above : 3
+Retraining Model
+Model Retraining Completed
+```
+
 
 # Project Struture
-##### ExpMaxML
-- **ExpMaxML.py** - Main Startup File.
-- **/StatFunctions**
-    - EM - Methods related to Expectation Maximization
-    - PDF - Distribution Implemenataion
-    - StatObj - Custom Stat Class
-##### Notebooks
-- **Liver Analysis** - Very Basic Liver Analysis
+
+##### **GenTex.py** 
+- Main Startup File.
+##### **Helper**
+- **HMMParam** - A Class object which holds HMM Parameters
+- **TextHelper** - A Helper class to do operations on text and hold the tokens
+- **Model** - A Class which holds HMMParam, Text and created Probability Values. Used to store the data as pickle
+- **ViterbiHelper** - A Helper, which contains all functions related to algorithm
+##### Models
+- **ModelData** - Simple Model Data File
+- **ModelData1** - Large Model Data File. Dont use unless its very necessary.
 ##### DataSet
--- indian_liver_patient.csv
--- winequality-red.csv
+-- alllines.txt
+-- lorem.txt - Cut down version of alllines.txt
+
 
 
   
